@@ -21,6 +21,10 @@
 - **Comment System:** Manages comments on videos.
 - **Real-Time Updates:** Synchronizes likes, dislikes, and comments.
 
+## Backend Repository
+
+The backend code is located in a separate repository. You can find it here: [VideoStream](https://github.com/11muskansingh/VideoStream)
+
 - ## Technologies Used
 
 ### Frontend
