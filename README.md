@@ -20,3 +20,32 @@
 - **Video Management:** Supports video uploads, updates, and deletions.
 - **Comment System:** Manages comments on videos.
 - **Real-Time Updates:** Synchronizes likes, dislikes, and comments.
+
+- ## Technologies Used
+
+### Frontend
+
+- **React**: A JavaScript library for building user interfaces.
+- **Tailwind CSS**: A utility-first CSS framework for designing responsive and modern UIs.
+- **Vite**: A build tool that provides a fast development environment for modern web projects.
+
+### Backend
+
+- **Express.js**: A web application framework for Node.js, used to build RESTful APIs.
+- **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
+- **MongoDB**: A NoSQL database used for storing and managing data.
+- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js, used for modeling and querying data.
+
+### Other Tools
+
+- **Git**: A version control system for tracking changes in source code.
+- **GitHub**: A platform for hosting and collaborating on Git repositories.
+- **ESLint**: A tool for identifying and fixing problems in JavaScript code.
+- **Prettier**: A code formatter that enforces consistent style.
+
+### Development
+
+- **NPM**: Node Package Manager for managing project dependencies.
+- **Postman**: A tool for testing and interacting with APIs.
+
+
