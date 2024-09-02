@@ -12,6 +12,11 @@ const VideoCard = ({ video }) => {
           src={video?.thumbnail[0]?.url}
           alt={video?.title}
         />
+        {video?.lengthText && (
+          <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-1 py-0.5 rounded">
+            {video.lengthText}
+          </span>
+        )}
       </div>
 
       <div className="flex text-white mt-3">
