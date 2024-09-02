@@ -50,8 +50,8 @@ const Signup = () => {
         console.log("User registered:", data);
         console.log("Avatar URL:", data.avatar);
         console.log("Profile Picture URL:", data.coverImage);
-        avatarURL = data.avatar;
-        coverImageURL = data.coverImage;
+        // avatarURL = data.avatar;
+        // coverImageURL = data.coverImage;
         console.log("Username", data.username);
         console.log("FullName:", data.fullname);
         console.log("email", data.email);

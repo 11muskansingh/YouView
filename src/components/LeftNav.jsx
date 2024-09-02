@@ -10,7 +10,7 @@ const LeftNav = () => {
   );
 
   return (
-    <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-21 bg-zinc-900 text-white flex flex-col items-center py-4 space-y-8">
+    <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-21 bg-black text-white flex flex-col items-center py-4 space-y-8">
       {filteredCategories.map((category) => (
         <React.Fragment key={category.id}>
           <div

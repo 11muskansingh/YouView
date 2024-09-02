@@ -9,10 +9,13 @@ const LeftNavMenuItems = () => {
 
   const handleCategoryClick = (categoryName) => {
     setSelectedCategory(categoryName);
-    navigate(`/category/${categoryName}`);
+    navigate(`/feed/${categoryName}`);
   };
   return (
-    <div className="flex flex-col bg-zinc-900 text-white h-[calc(100vh-64px)] w-64 fixed top-16 left-0 py-4 overflow-y-auto">
+    <div
+      className="flex flex-col bg-black text-white h-[calc(100vh-64px)] w-64 fixed top-16 left-0 py-4 overflow-y-auto"
+      style={{ overflow: "hidden" }}
+    >
       {categories.map((category, index) => (
         <React.Fragment key={category.id}>
           <div
