@@ -12,17 +12,8 @@ const VideoFeed = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        // let response;
-        // if (categoryName === "Home")
-        //   response = await axios.get(
-        //     `http://localhost:3000/api/v1/videos/c/home`
-        //   );
-        // else
-        //   response = await axios.get(
-        //     `http://localhost:3000/api/v1/videos/c/${categoryName}`
-        //   );
         const response = await axios.get(
-          `http://localhost:3000/api/v1/videos/c/${categoryName}`
+          `http://localhost:3000/api/v1/videos/category/${categoryName}`
         );
         console.log(response.data);
         setVideos(response.data);

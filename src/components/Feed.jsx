@@ -13,7 +13,7 @@ const Feed = () => {
   const { selectedCategory, setSelectedCategory } = useContext(Context);
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {isSideBarVisible ? <LeftNavMenuItems /> : <LeftNav />}
       <Routes>
         <Route path="/" element={<Navigate to="/feed/Home" />} />
