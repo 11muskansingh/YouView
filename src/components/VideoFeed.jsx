@@ -15,7 +15,7 @@ const VideoFeed = () => {
         const response = await axios.get(
           `http://localhost:3000/api/v1/videos/category/${categoryName}`
         );
-        console.log(response.data);
+        // console.log(response.data);
         setVideos(response.data);
       } catch (error) {
         console.error("Error fetching videos:", error);
@@ -26,7 +26,7 @@ const VideoFeed = () => {
 
   return (
     <div
-      className={`grow h-full overflow-y-auto bg-black absolute ${
+      className={`grow h-full overflow-hidden  bg-black absolute ${
         isSideBarVisible
           ? "left-[256px] w-[calc(100%-256px)]"
           : "left-[84px] w-[calc(100%-84px)]"

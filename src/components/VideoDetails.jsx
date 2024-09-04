@@ -8,16 +8,16 @@ import { abbreviateNumber } from "js-abbreviation-number";
 import SuggestionVideoCard from "./SuggestionVideoCard";
 const VideoDetails = () => {
   const [video, setVideo] = useState();
-  const { videoId } = useParams();
-  console.log("VideoId from useParams:", videoId);
-  const [relatedVideos, setRelatedVideos] = useState();
+  const { id } = useParams();
+  const [relatedVideos, setRelatedVideos] = useState([]);
   const isFromDatabase = video?._id !== undefined;
   const fetchRelatedVideos = async () => {
     try {
+      setVideo(null);
       const response = await axios.get(
-        `http://localhost:3000/api/v1/videos/related/${videoId}`
+        `http://localhost:3000/api/v1/videos/related/${id}`
       );
-      console.log(response.data);
+      //console.log("Related Videos data :", response.data);
       setRelatedVideos(response.data);
     } catch (error) {
       console.error("Error fetching videos:", error);
@@ -26,10 +26,11 @@ const VideoDetails = () => {
 
   const fetchVideoDetails = async () => {
     try {
+      setRelatedVideos([]);
       const response = await axios.get(
-        `http://localhost:3000/api/v1/videos/info/${videoId}`
+        `http://localhost:3000/api/v1/videos/info/${id}`
       );
-      //console.log(response.data);
+      // console.log("Videos Details", response.data);
 
       setVideo(response.data);
     } catch (error) {
@@ -38,33 +39,34 @@ const VideoDetails = () => {
   };
 
   useEffect(() => {
+    console.log("Current video ID:", id);
     fetchRelatedVideos();
     fetchVideoDetails();
-    // console.log("VideoId from useParams:", videoId);
-    // console.log(
-    //   "Video URL:",
-    //   isFromDatabase
-    //     ? video.videoFile
-    //     : `https://www.youtube.com/watch?v=${videoId}`
-    // );
-  }, [videoId]);
+  }, [id]);
+
   return (
-    <div className="flex justify-center flex-row h-[calc(100%-56px)] bg-black">
-      <div className="w-full max-w-[1280px] flex flex-col lg:flex-row">
-        <div className="flex flex-col lg:w-[calc(100%-350px)] xl:w-[calc(100%-400px)] px-4 py-3 lg:py-6 overflow-y-auto">
+    <div className="flex justify-center flex-row h-[calc(100%-56px)] bg-black ">
+      <div className="w-full max-w-[1280px] flex flex-col lg:flex-row ">
+        <div className="flex flex-col lg:w-[calc(100%-350px)] xl:w-[calc(100%-400px)] px-4 py-3 lg:py-6 ">
           <div className="h-[200px] md:h-[400px] lg:h-[400px] xl:h-[550px] ml-[-16px] lg:ml-0 mr-[-16px] lg:mr-0">
-            <ReactPlayer
-              url={
-                isFromDatabase
-                  ? `video.videoFile`
-                  : `https://www.youtube.com/watch?v=${videoId}`
-              }
-              controls
-              width="100%"
-              height="100%"
-              style={{ backgroundColor: "#000000" }}
-              playing={true}
-            />
+            {isFromDatabase ? (
+              <video
+                src={video.videoFile}
+                controls
+                width="100%"
+                height="100%"
+                style={{ backgroundColor: "#000" }}
+                autoPlay
+              />
+            ) : (
+              <ReactPlayer
+                url={`https://www.youtube.com/watch?v=${id}`}
+                controls
+                width="100%"
+                height="100%"
+                playing={true}
+              />
+            )}
           </div>
           <div className="text-white font-bold text-sm md:text-xl mt-4 line-clamp-2">
             {video?.title}
@@ -109,10 +111,10 @@ const VideoDetails = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col py-6 px-4 overflow-y-auto lg:w-[350px] xl:w-[400px]">
-          {relatedVideos?.map((item, index) => {
-            if (item?.type !== "video") return false;
-            return <SuggestionVideoCard key={index} video={item?.video} />;
+        <div className="flex flex-col py-6 px-4 overflow-y-auto lg:w-[350px] xl:w-[400px] no-scrollbar">
+          {relatedVideos.map((item, index) => {
+            if (item.type === "video")
+              return <SuggestionVideoCard key={index} video={item} />;
           })}
         </div>
       </div>

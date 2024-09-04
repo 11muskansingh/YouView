@@ -6,7 +6,7 @@ import { BsFillCheckCircleFill } from "react-icons/bs";
 const VideoCard = ({ video }) => {
   const isFromDatabase = video?._id !== undefined;
   return (
-    <Link to={`/video/${video?.videoId}`}>
+    <Link to={`/video/${isFromDatabase ? video._id : video?.videoId}`}>
       <div className="flex flex-col mb-8">
         <div className="relative h-48 md:h-40 md:rounded-xl overflow-hidden">
           <img
