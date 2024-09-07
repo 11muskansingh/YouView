@@ -14,7 +14,7 @@ import { Context } from "../context/contextApi";
 //import Loader from "../shared/loader";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { avatarURL, coverImageUrl } = useContext(Context);
+  const { avatar } = useContext(Context);
   const { isSideBarVisible, toggleSideBar, mobileMenu, setMobileMenu } =
     useContext(Context);
 
@@ -97,7 +97,7 @@ const Header = () => {
         </div>
 
         <div className="flex h-8 w-8 overflow-hidden rounded-full md:ml-4">
-          <img src={`${avatarURL}`} />
+          <img src={avatar} />
         </div>
       </div>
     </div>

@@ -16,17 +16,38 @@ const Signup = () => {
     setAvatar,
     profilePicture,
     setProfilePicture,
-    avatarPreview,
-    setAvatarPreview,
-    profilePicturePreview,
-    setProfilePicturePreview,
-    avatarURL,
-    coverImageURL,
+    // avatarPreview,
+    // setAvatarPreview,
+    //  profilePicturePreview,
+    // setProfilePicturePreview,
+    // avatarURL,
+    // coverImageURL,
   } = useContext(Context);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  const [profilePicturePreview, setProfilePicturePreview] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!username || /\s/.test(username)) {
+      newErrors.username = "Username must not contain spaces.";
+    }
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Email is not valid.";
+    }
+    // if (!password || password.length < 6) {
+    //   newErrors.password = "Password must be at least 6 characters long.";
+    // }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSignup = (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     const formData = new FormData();
     formData.append("username", username);
     formData.append("email", email);
@@ -46,12 +67,12 @@ const Signup = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         const { data } = res.data;
         console.log("User registered:", data);
         console.log("Avatar URL:", data.avatar);
-        console.log("Profile Picture URL:", data.coverImage);
-        // avatarURL = data.avatar;
-        // coverImageURL = data.coverImage;
+        setAvatar(data.avatar);
+        if (data.coverImage) setProfilePicture(data.coverImage);
         console.log("Username", data.username);
         console.log("FullName:", data.fullname);
         console.log("email", data.email);
@@ -141,9 +162,12 @@ const Signup = () => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${errors.username ? 'border-red-500' : ''}`"
             placeholder="Enter your username"
           />
+          {errors.username && (
+            <p className="text-red-500 text-sm mt-1">{errors.username}</p> // Display username error
+          )}
         </div>
         <div className="mb-4">
           <label className="block mb-2 text-sm font-medium">Full Name</label>
@@ -151,9 +175,12 @@ const Signup = () => {
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${errors.email ? 'border-red-500' : ''}`"
             placeholder="Enter your full name"
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p> // Display email error
+          )}
         </div>
         <div className="mb-4">
           <label className="block mb-2 text-sm font-medium">Email</label>

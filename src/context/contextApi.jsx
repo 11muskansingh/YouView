@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 // import { fetchDataFromApi } from "../utils/api";
 export const Context = createContext();
 
-export const AppContext = (props) => {
+export const AppContext = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Home");
@@ -14,10 +14,10 @@ export const AppContext = (props) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState(null);
-  const [profilePicture, setProfilePicture] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState(null);
-  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
+  const [avatar, setAvatar] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+  // const [avatarPreview, setAvatarPreview] = useState("");
+  // const [profilePicturePreview, setProfilePicturePreview] = useState("");
   const [loginUsername, loginSetUsername] = useState("");
   const [loginPassword, loginSetPassword] = useState("");
 
@@ -66,19 +66,17 @@ export const AppContext = (props) => {
         setAvatar,
         profilePicture,
         setProfilePicture,
-        avatarPreview,
-        setAvatarPreview,
-        profilePicturePreview,
-        setProfilePicturePreview,
+        // avatarPreview,
+        // setAvatarPreview,
+        // profilePicturePreview,
+        // setProfilePicturePreview,
         loginUsername,
         loginSetUsername,
         loginPassword,
         loginSetPassword,
-        avatarURL,
-        coverImageURL,
       }}
     >
-      {props.children}
+      {children}
     </Context.Provider>
   );
 };

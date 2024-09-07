@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player/youtube";
 import { BsFillCheckCircleFill } from "react-icons/bs";
-import { AiOutlineLike } from "react-icons/ai";
+import {
+  AiOutlineLike,
+  AiOutlinePlus,
+  AiOutlineMinus,
+  AiOutlineComment,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
 import { abbreviateNumber } from "js-abbreviation-number";
 import SuggestionVideoCard from "./SuggestionVideoCard";
+import { Context } from "../context/contextApi";
+import CommentsPage from "./CommentsPage";
+import axiosInstance from "../utils/AxiosInstance.jsx";
+
 const VideoDetails = () => {
   const [video, setVideo] = useState();
   const { id } = useParams();
+  const { avatar } = useContext(Context);
   const [relatedVideos, setRelatedVideos] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [showComments, setShowComments] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
+  const [newComment, setNewComment] = useState("");
+
   const isFromDatabase = video?._id !== undefined;
+
   const fetchRelatedVideos = async () => {
     try {
       setVideo(null);
       const response = await axios.get(
         `http://localhost:3000/api/v1/videos/related/${id}`
       );
-      //console.log("Related Videos data :", response.data);
+      //  console.log("Related Videos data :", response.data);
       setRelatedVideos(response.data);
     } catch (error) {
       console.error("Error fetching videos:", error);
@@ -38,11 +56,74 @@ const VideoDetails = () => {
     }
   };
 
+  const handleAddComment = async () => {
+    try {
+      const response = await axiosInstance.post(`/comment/add/${id}`, {
+        content: newComment,
+      });
+      console.log("Comment added", response.data);
+      setComments((prevComments) => [response.data, ...prevComments]);
+      setNewComment("");
+      setShowComments(true);
+    } catch (error) {
+      console.error("Error commenting on video", error);
+    }
+  };
+
+  const handleRemoveComment = async (commentId) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/comment/deleteComment/${commentId}`
+      );
+      console.log("Comment Removed", response.data);
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment._id !== commentId)
+      );
+    } catch (error) {
+      console.error("Error Adding comment", error);
+    }
+  };
+
+  const handleUpdateComment = async (commentId, editedContent) => {
+    try {
+      await axiosInstance.patch(`/comment/updateComment/${commentId}`, {
+        content: editedContent,
+      });
+      console.log("Comment updated", response.data);
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment._id === commentId
+            ? { ...comment, content: editedContent }
+            : comment
+        )
+      );
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
+
+  const getAllComments = async () => {
+    try {
+      // console.log("My cookies are:", document.cookie);
+      const response = await axiosInstance.get(`/comment/get/${id}`);
+      console.log("All Comments", response.data.data);
+      setComments(response.data.data);
+    } catch (error) {
+      console.error(
+        "Error fetching all comments",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+
   useEffect(() => {
-    console.log("Current video ID:", id);
     fetchRelatedVideos();
     fetchVideoDetails();
+    getAllComments();
   }, [id]);
+  useEffect(() => {
+    getAllComments();
+  }, [showComments]);
 
   return (
     <div className="flex justify-center flex-row h-[calc(100%-56px)] bg-black ">
@@ -78,16 +159,20 @@ const VideoDetails = () => {
                   <img
                     className="h-full w-full object-cover"
                     src={
-                      (video?.channelThumbnail &&
-                        video?.channelThumbnail[0]?.url) ||
-                      "https://tse4.mm.bing.net/th?id=OIP.tZq4FbHI-2VuBSGkHjfyfAHaHa&pid=Api&P=0&h=180"
+                      isFromDatabase
+                        ? video.owner.avatar
+                        : (video?.channelThumbnail &&
+                            video.channelThumbnail[0]?.url) ||
+                          "https://tse4.mm.bing.net/th?id=OIP.tZq4FbHI-2VuBSGkHjfyfAHaHa&pid=Api&P=0&h=180"
                     }
                   />
                 </div>
               </div>
               <div className="flex flex-col ml-3">
                 <div className="text-white text-md font-semibold flex items-center">
-                  {video?.channelTitle || "Unknown Channel"}
+                  {isFromDatabase
+                    ? video.owner.fullname
+                    : video?.channelTitle || "Unknown Channel"}
                   {!isFromDatabase && video?.channelHandle && (
                     <BsFillCheckCircleFill className="text-white/[0.5] text-[12px] ml-1" />
                   )}
@@ -100,16 +185,84 @@ const VideoDetails = () => {
             <div className="flex text-white mt-4 md:mt-0">
               <div className="flex items-center justify-center h-11 px-6 rounded-3xl bg-white/[0.15]">
                 <AiOutlineLike className="text-xl text-white mr-2" />
-                {`${abbreviateNumber(video?.stats?.views, 2)} Likes`}
+                {`${abbreviateNumber(
+                  isFromDatabase ? video.likesCount : 0,
+                  2
+                )} Likes`}
               </div>
               <div className="flex items-center justify-center h-11 px-6 rounded-3xl bg-white/[0.15] ml-4">
                 {`${abbreviateNumber(
-                  video?.viewCount || video?.views,
+                  isFromDatabase ? video.views : video?.viewCount || 0,
                   2
                 )} Views`}
               </div>
             </div>
           </div>
+          {/* Toggle Icons */}
+          <div className="flex mt-4 space-x-4">
+            <button
+              onClick={() => setShowDescription(!showDescription)}
+              className="text-white hover:text-gray-400 flex items-center"
+            >
+              <AiOutlineInfoCircle className="text-2xl" />
+              <span className="ml-2 text-sm">
+                {showDescription ? "Hide Description" : "Show Description"}
+              </span>
+            </button>
+            <button
+              onClick={() => setShowComments(!showComments)}
+              className="text-white hover:text-gray-400 flex items-center"
+            >
+              <AiOutlineComment className="text-2xl" />
+              <span className="ml-2 text-sm">
+                {showComments ? "Hide Comments" : "Show Comments"}
+              </span>
+            </button>
+          </div>
+
+          {/* Description Section */}
+          {showDescription && (
+            <div className="text-white mt-4">
+              <h3 className="text-lg font-semibold">Description</h3>
+              <p className="mt-2 text-sm text-white/[0.7]">
+                {video?.description || "No description available."}
+              </p>
+            </div>
+          )}
+          {/* Comment Section */}
+          {showComments && (
+            <div className="text-white mt-6">
+              <h3 className="text-lg font-semibold">Comments</h3>
+              <div className="mt-2">
+                {comments.length === 0 ? (
+                  <p className="text-white/[0.7]">No comments yet.</p>
+                ) : (
+                  comments.map((comment) => (
+                    <CommentsPage
+                      key={comment._id}
+                      comment={comment}
+                      onUpdateComment={handleUpdateComment}
+                      onRemoveComment={handleRemoveComment}
+                    />
+                  ))
+                )}
+              </div>
+              <div className="flex mt-4">
+                <input
+                  type="text"
+                  placeholder="Add a comment..."
+                  className="flex-grow p-2 rounded-l-md bg-white/[0.1] text-white"
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
+                <button
+                  onClick={handleAddComment}
+                  className="p-2 rounded-r-md bg-green-500 text-white"
+                >
+                  <AiOutlinePlus />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex flex-col py-6 px-4 overflow-y-auto lg:w-[350px] xl:w-[400px] no-scrollbar">
           {relatedVideos.map((item, index) => {

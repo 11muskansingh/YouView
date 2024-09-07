@@ -4,8 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../context/contextApi";
 
 const Login = () => {
-  const { loginUsername, loginSetUsername, loginPassword, loginSetPassword } =
-    useContext(Context);
+  const {
+    loginUsername,
+    loginSetUsername,
+    loginPassword,
+    loginSetPassword,
+    avatar,
+    setAvatar,
+    profilePicture,
+    setProfilePicture,
+  } = useContext(Context);
+
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   // console.log(username);
@@ -18,11 +28,23 @@ const Login = () => {
         password: loginPassword,
       })
       .then((res) => {
-        const token = res.data.token;
-        localStorage.setItem("authToken", token);
+        const response = res.data;
+        setAvatar(response.data.avatar);
+        setProfilePicture(response.data.coverImage);
+        console.log("avatar", response.data.avatar);
+        console.log("profile", response.data.coverImage);
+
         navigate("/feed");
+        console.log(res);
       })
       .catch((err) => {
+        if (err.response && err.response.data) {
+          setError(
+            err.response.data.message || "Username or Password is incorrect"
+          );
+        } else {
+          setError("UserName or Password is incorrect");
+        }
         console.error("Login error:", err);
       });
   };
@@ -37,7 +59,7 @@ const Login = () => {
             type="text"
             value={loginUsername}
             onChange={(e) => loginSetUsername(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${error ? 'border-red-500' : ''}`"
             placeholder="Enter your username"
           />
         </div>
@@ -47,10 +69,13 @@ const Login = () => {
             type="password"
             value={loginPassword}
             onChange={(e) => loginSetPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500"
+            className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${error ? 'border-red-500' : ''}`"
             placeholder="Enter your password"
           />
         </div>
+        {error && (
+          <p className="text-red-500 text-sm mb-4">{error}</p> // Display error message
+        )}
         <button
           onClick={handleLogin}
           className="w-full py-2 mb-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:outline-none"
