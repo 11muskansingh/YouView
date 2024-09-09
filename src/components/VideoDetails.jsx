@@ -58,9 +58,16 @@ const VideoDetails = () => {
 
   const handleAddComment = async () => {
     try {
-      const response = await axiosInstance.post(`/comment/add/${id}`, {
-        content: newComment,
-      });
+      console.log("cookies access from frontend", document.cookie);
+      const response = await axiosInstance.post(
+        `/comment/add/${id}`,
+        {
+          content: newComment,
+        },
+        {
+          withCredentials: true, // Ensures cookies are sent
+        }
+      );
       console.log("Comment added", response.data);
       setComments((prevComments) => [response.data, ...prevComments]);
       setNewComment("");
