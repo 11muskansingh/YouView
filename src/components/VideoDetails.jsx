@@ -58,19 +58,15 @@ const VideoDetails = () => {
 
   const handleAddComment = async () => {
     try {
-      console.log("cookies access from frontend", document.cookie);
-      const response = await axiosInstance.post(
-        `/comment/add/${id}`,
-        {
-          content: newComment,
-        },
-        {
-          withCredentials: true, // Ensures cookies are sent
-        }
-      );
+      // console.log("cookies access from frontend", document.cookie);
+      const response = await axiosInstance.post(`/comment/add/${id}`, {
+        content: newComment,
+      });
       console.log("Comment added", response.data);
-      setComments((prevComments) => [response.data, ...prevComments]);
+      //await setComments((prevComments) => [response.data, ...prevComments]);
       setNewComment("");
+      getAllComments();
+
       setShowComments(true);
     } catch (error) {
       console.error("Error commenting on video", error);
@@ -87,7 +83,7 @@ const VideoDetails = () => {
         prevComments.filter((comment) => comment._id !== commentId)
       );
     } catch (error) {
-      console.error("Error Adding comment", error);
+      console.error("Error deleting comment", error);
     }
   };
 
@@ -96,7 +92,6 @@ const VideoDetails = () => {
       await axiosInstance.patch(`/comment/updateComment/${commentId}`, {
         content: editedContent,
       });
-      console.log("Comment updated", response.data);
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment._id === commentId
@@ -104,9 +99,15 @@ const VideoDetails = () => {
             : comment
         )
       );
+      getAllComments();
     } catch (error) {
       console.error("Error updating comment:", error);
     }
+  };
+
+  const handleLikeComment = async (commentId) => {
+    try {
+    } catch (error) {}
   };
 
   const getAllComments = async () => {
@@ -128,10 +129,6 @@ const VideoDetails = () => {
     fetchVideoDetails();
     getAllComments();
   }, [id]);
-  useEffect(() => {
-    getAllComments();
-  }, [showComments]);
-
   return (
     <div className="flex justify-center flex-row h-[calc(100%-56px)] bg-black ">
       <div className="w-full max-w-[1280px] flex flex-col lg:flex-row ">

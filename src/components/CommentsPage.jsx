@@ -7,19 +7,8 @@ const CommentsPage = ({ comment, onUpdateComment, onRemoveComment }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const [likes, setLikes] = useState(comment.likes || 0);
-  const [hasLiked, setHasLiked] = useState(false);
+  // const [hasLiked, setHasLiked] = useState(false);
   const { avatar, fullName } = useContext(Context);
-  // const handleLike = async () => {
-  //   try {
-  //       const response = await axios.patch(
-  //         `http://localhost:3000/api/v1/like/comment/${comment._id}`
-  //       );
-  //       setLikes(response.data.likes);
-  //       setHasLiked(true);
-  //   } catch (error) {
-  //     console.error("Error liking comment:", error);
-  //   }
-  // };
 
   const handleUpdate = () => {
     onUpdateComment(comment._id, editedContent);
@@ -29,12 +18,6 @@ const CommentsPage = ({ comment, onUpdateComment, onRemoveComment }) => {
   const handleRemove = () => {
     onRemoveComment(comment._id);
   };
-
-  // const handleLike = () => {
-  //   // Simulate the like effect
-  //   setLikes((prevLikes) => (hasLiked ? prevLikes - 1 : prevLikes + 1));
-  //   setHasLiked(!hasLiked);
-  // };
 
   return (
     <div className="flex flex-col md:flex-row items-start mb-4 p-4 bg-gray-800 rounded-md">

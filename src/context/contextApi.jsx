@@ -21,6 +21,14 @@ export const AppContext = ({ children }) => {
   const [loginUsername, loginSetUsername] = useState("");
   const [loginPassword, loginSetPassword] = useState("");
 
+  const [videoCategory, setVideoCategory] = useState("");
+  const [videoType, setVideoType] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [thumbnail, setThumbnail] = useState("");
+  const [videoFile, setVideoFile] = useState("");
+  const [duration, setDuration] = useState();
   let avatarURL;
   let coverImageURL;
 
@@ -74,6 +82,20 @@ export const AppContext = ({ children }) => {
         loginSetUsername,
         loginPassword,
         loginSetPassword,
+        videoCategory,
+        setVideoCategory,
+        videoType,
+        setVideoType,
+        title,
+        setTitle,
+        description,
+        setDescription,
+        thumbnail,
+        setThumbnail,
+        videoFile,
+        setVideoFile,
+        duration,
+        setDuration,
       }}
     >
       {children}

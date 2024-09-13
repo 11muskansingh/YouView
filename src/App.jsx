@@ -14,6 +14,7 @@ import VideoDetails from "./components/VideoDetails";
 import { AppContext } from "./context/contextApi";
 import Login from "./components/Signup/Login.jsx";
 import Signup from "./components/Signup/Signup.jsx";
+import UploadVideo from "./components/UploadVideo.jsx";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const RouteHandler = () => {
         <Route path="/feed/*" element={<Feed />} />
         <Route path="/searchResult/:searchQuery" element={<SearchResult />} />
         <Route path="/video/:id" element={<VideoDetails />} />
+        <Route path="/upload" element={<UploadVideo />} />
       </Routes>
     </>
   );
