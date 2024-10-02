@@ -2,6 +2,7 @@ import React from "react";
 import { abbreviateNumber } from "js-abbreviation-number";
 import { Link } from "react-router-dom";
 import { BsFillCheckCircleFill, BsTypeH5 } from "react-icons/bs";
+import { FadeLoader } from "react-spinners";
 const SuggestionVideoCard = ({ video }) => {
   const isFromDatabase = video?._id !== undefined;
 

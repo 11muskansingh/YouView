@@ -7,6 +7,7 @@ import Header from "./Header";
 import { Navigate, useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import VideoFeed from "./VideoFeed";
+import History from "./History";
 const Feed = () => {
   const { isSideBarVisible, setSidebarVisible, toggleSideBar } =
     useContext(Context);
@@ -18,6 +19,7 @@ const Feed = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/feed/Home" />} />
         <Route path="/:categoryName" element={<VideoFeed />} />
+        <Route path="/History" element={<History />} />
       </Routes>
     </>
   );

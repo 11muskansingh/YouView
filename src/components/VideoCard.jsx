@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { abbreviateNumber } from "js-abbreviation-number";
 import { Link } from "react-router-dom";
 import { BsFillCheckCircleFill } from "react-icons/bs";
+import { FadeLoader } from "react-spinners";
 
+import { Context } from "../context/contextApi";
 const VideoCard = ({ video }) => {
   const isFromDatabase = video?._id !== undefined;
+  const { handleAddVideoToWatchHistory } = useContext(Context);
   return (
     <Link to={`/video/${isFromDatabase ? video._id : video?.videoId}`}>
-      <div className="flex flex-col mb-8">
+      <div
+        onClick={() =>
+          handleAddVideoToWatchHistory(
+            isFromDatabase ? video._id : video?.videoId
+          )
+        }
+        className="flex flex-col mb-8"
+      >
         <div className="relative h-48 md:h-40 md:rounded-xl overflow-hidden">
           <img
             className="h-full w-full object-cover"

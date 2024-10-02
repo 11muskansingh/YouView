@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import axiosInstance from "../utils/AxiosInstance";
 
 // import { fetchDataFromApi } from "../utils/api";
 export const Context = createContext();
@@ -36,18 +37,13 @@ export const AppContext = ({ children }) => {
     setSidebarVisible(!isSideBarVisible);
   };
 
-  // useEffect(() => {
-  //     fetchSelectedCategoryData(selectedCategory);
-  // }, [selectedCategory]);
-
-  // const fetchSelectedCategoryData = (query) => {
-  //     setLoading(true);
-  //     fetchDataFromApi(`search/?q=${query}`).then(({ contents }) => {
-  //         console.log(contents);
-  //         setSearchResults(contents);
-  //         setLoading(false);
-  //     });
-  // };
+  const handleAddVideoToWatchHistory = async (videoId) => {
+    try {
+      axiosInstance.post(`/videos/addVideo/${videoId}`);
+    } catch (error) {
+      console.log("Error adding video to watch History");
+    }
+  };
 
   return (
     <Context.Provider
@@ -96,6 +92,7 @@ export const AppContext = ({ children }) => {
         setVideoFile,
         duration,
         setDuration,
+        handleAddVideoToWatchHistory,
       }}
     >
       {children}

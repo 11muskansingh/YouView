@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axiosInstance from "../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../context/contextApi";
+import { FadeLoader } from "react-spinners";
 const UploadVideo = () => {
   const [thumbnailPreview, setthumbnailPreview] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -20,12 +21,14 @@ const UploadVideo = () => {
     setVideoFile,
     duration,
     setDuration,
+    loading,
+    setLoading,
   } = useContext(Context);
   const navigate = useNavigate();
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("type", type);
@@ -52,6 +55,7 @@ const UploadVideo = () => {
         setVideoFile(data.videoFile);
         setDuration(data.duration);
         setUploadSuccess(true);
+        setLoading(false);
       })
       .catch((err) => {
         console.log("Error uploading Video", err);
@@ -75,7 +79,11 @@ const UploadVideo = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black py-6">
       <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg">
-        {uploadSuccess ? (
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <FadeLoader color="#3498db" loading={loading} />
+          </div>
+        ) : uploadSuccess ? (
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-green-600 mb-4">
               Video Uploaded Successfully!

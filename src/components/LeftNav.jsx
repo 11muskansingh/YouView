@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { Context } from "../context/contextApi.jsx";
-import { categories } from "../utils/Constants.jsx"; // Adjust the import path as needed
+import { categories } from "../utils/Constants.jsx";
 
 const LeftNav = () => {
   const { selectedCategory, setSelectedCategory } = useContext(Context);
