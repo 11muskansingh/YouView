@@ -39,7 +39,7 @@ export const AppContext = ({ children }) => {
 
   const handleAddVideoToWatchHistory = async (videoId) => {
     try {
-      axiosInstance.post(`/videos/addVideo/${videoId}`);
+      await axiosInstance.post(`/videos/addVideo/${videoId}`);
     } catch (error) {
       console.log("Error adding video to watch History");
     }

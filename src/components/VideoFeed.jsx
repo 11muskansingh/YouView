@@ -22,6 +22,7 @@ const VideoFeed = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching videos:", error);
+        setLoading(false);
       }
     };
     fetchVideos();
@@ -29,7 +30,10 @@ const VideoFeed = () => {
 
   return (
     <div
-      className={`grow h-full overflow-hidden  bg-black absolute left-[84px] w-[calc(100%-84px)]
+      className={`
+      grow h-full overflow-hidden bg-black
+      absolute left-0 w-full
+      md:left-[84px] md:w-[calc(100%-84px)] 
       `}
       style={{ overflow: "hidden" }}
     >
@@ -38,7 +42,7 @@ const VideoFeed = () => {
           <FadeLoader color="#3498db" loading={loading} />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-5  h-full overflow-y-auto scrollbar-hide">
           {videos.map((item) => {
             if (item.type === "video")
               return <VideoCard key={item?.videoId} video={item} />;

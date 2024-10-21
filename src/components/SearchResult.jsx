@@ -43,13 +43,13 @@ const SearchResult = () => {
   return (
     <div className="flex flex-row h-[calc(100%-56px)] relative left-[84px] w-[calc(100%-84px)]">
       {isSideBarVisible ? <LeftNavMenuItems /> : <LeftNav />}
-      <div className="grow w-[calc(100%-240px)] h-full overflow-y-auto bg-black ">
+      <div className="grow w-[calc(100%-240px)] h-full overflow-y-auto bg-black scrollbar-hide">
         {loading ? (
           <div className="flex justify-center items-center h-full">
             <FadeLoader color="#3498db" loading={loading} />
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-2 p-5">
+          <div className="grid grid-cols-1 gap-2 p-5 ">
             {result.length === 0 ? (
               <div>No videos found</div>
             ) : (
@@ -70,7 +70,6 @@ const SearchResult = () => {
                   item?.type === "shorts_listing" &&
                   Array.isArray(item.data)
                 ) {
-
                   videos = item.data;
                 }
 
@@ -81,6 +80,7 @@ const SearchResult = () => {
                     <SearchResultVideoCard
                       key={video.videoId || video._id || idx}
                       video={video}
+                      isHistory={false}
                     />
                   );
                 });

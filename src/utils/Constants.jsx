@@ -45,7 +45,7 @@ export const categories = [
   },
   {
     id: 7,
-    name: "Liked Videos",
+    name: "Liked_Videos",
     icon: <BiLike />,
     divider: true,
     type: "menu",

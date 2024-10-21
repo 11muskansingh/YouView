@@ -8,6 +8,7 @@ import {
   AiOutlineLike,
   AiOutlinePlus,
   AiOutlineMinus,
+  AiFillLike,
   AiOutlineComment,
   AiOutlineInfoCircle,
 } from "react-icons/ai";
@@ -27,6 +28,7 @@ const VideoDetails = () => {
   const [showComments, setShowComments] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [isLiked, setIsLiked] = useState(false);
 
   const isFromDatabase = video?._id !== undefined;
 
@@ -49,12 +51,10 @@ const VideoDetails = () => {
     try {
       setLoading(true);
       setRelatedVideos([]);
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/videos/info/${id}`
-      );
-      // console.log("Videos Details", response.data);
-
-      setVideo(response.data);
+      const response = await axiosInstance.get(`/videos/info/${id}`);
+      console.log("Videos Details", response);
+      setVideo(response.data.video);
+      setIsLiked(response.data.isLiked);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching video details:", error);
@@ -137,6 +137,28 @@ const VideoDetails = () => {
     }
   };
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await handleVideoLike(id);
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error("Error liking the video", error);
+    }
+  };
+
+  const handleVideoLike = async (videoId) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post(`/like/video/${videoId}`);
+      console.log(response);
+      setLoading(false);
+    } catch (error) {
+      console.log("Error liking the video", error.message);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchRelatedVideos();
     fetchVideoDetails();
@@ -152,7 +174,7 @@ const VideoDetails = () => {
             </div>
           ) : (
             <>
-              <div className="h-[200px] md:h-[400px] lg:h-[400px] xl:h-[550px] ml-[-16px] lg:ml-0 mr-[-16px] lg:mr-0">
+              <div className="sticky top-[56px] h-[200px] md:h-[400px] lg:h-[400px] xl:h-[550px] ml-[-16px] lg:ml-0 mr-[-16px] lg:mr-0 ">
                 {isFromDatabase ? (
                   <video
                     src={video.videoFile}
@@ -172,7 +194,7 @@ const VideoDetails = () => {
                   />
                 )}
               </div>
-              <div className="text-white font-bold text-sm md:text-xl mt-4 line-clamp-2">
+              <div className=" overflow-y-auto text-white font-bold text-sm md:text-xl mt-4 line-clamp-2">
                 {video?.title}
               </div>
               <div className="flex justify-between flex-col md:flex-row mt-4">
@@ -207,11 +229,16 @@ const VideoDetails = () => {
                 </div>
                 <div className="flex text-white mt-4 md:mt-0">
                   <div className="flex items-center justify-center h-11 px-6 rounded-3xl bg-white/[0.15]">
-                    <AiOutlineLike className="text-xl text-white mr-2" />
-                    {`${abbreviateNumber(
-                      isFromDatabase ? video.likesCount : 0,
-                      2
-                    )} Likes`}
+                    <div
+                      onClick={handleClick}
+                      className="cursor-pointer flex items-center"
+                    >
+                      {isLiked ? (
+                        <AiFillLike className="text-2xl text-blue-500 mr-2" />
+                      ) : (
+                        <AiOutlineLike className="text-2xl text-white mr-2" />
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center justify-center h-11 px-6 rounded-3xl bg-white/[0.15] ml-4">
                     {`${abbreviateNumber(
@@ -289,9 +316,9 @@ const VideoDetails = () => {
             </>
           )}
         </div>
-        <div className="flex flex-col py-6 px-4 overflow-y-auto lg:w-[350px] xl:w-[400px] no-scrollbar">
+        <div className="flex flex-col py-6 px-4 overflow-y-auto lg:w-[350px] xl:w-[400px] scrollbar-hide">
           {relatedVideos.map((item, index) => {
-            if (item.type === "video")
+            if (item && item.type === "video")
               return <SuggestionVideoCard key={index} video={item} />;
           })}
         </div>

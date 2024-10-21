@@ -4,10 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../context/contextApi";
 import { categories } from "../utils/Constants";
 const LeftNavMenuItems = () => {
-  const { selectedCategory, setSelectedCategory } = useContext(Context);
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    isSideBarVisible,
+    setSidebarVisible,
+  } = useContext(Context);
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryName) => {
+    setSidebarVisible(!isSideBarVisible);
     setSelectedCategory(categoryName);
     navigate(`/feed/${categoryName}`);
   };

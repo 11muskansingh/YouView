@@ -38,6 +38,10 @@ const Login = () => {
         const response = res.data;
         setAvatar(response.data.avatar);
         setProfilePicture(response.data.coverImage);
+
+        localStorage.setItem("avatar", response.data.avatar);
+        localStorage.setItem("profilePicture", response.data.coverImage);
+
         console.log("avatar", response.data.avatar);
         console.log("profile", response.data.coverImage);
         navigate("/feed");

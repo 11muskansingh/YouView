@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import ytLogo from "../images/yt-logo.png";
@@ -11,12 +11,19 @@ import { FiBell } from "react-icons/fi";
 import { CgClose } from "react-icons/cg";
 
 import { Context } from "../context/contextApi";
+import axiosInstance from "../utils/AxiosInstance";
 //import Loader from "../shared/loader";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { avatar } = useContext(Context);
-  const { isSideBarVisible, toggleSideBar, mobileMenu, setMobileMenu } =
-    useContext(Context);
+  const { avatar, setAvatar } = useContext(Context);
+  const {
+    isSideBarVisible,
+    toggleSideBar,
+    mobileMenu,
+    setMobileMenu,
+    loading,
+    setLoading,
+  } = useContext(Context);
 
   const mobileMenuToggle = () => {
     setMobileMenu(!mobileMenu);
@@ -34,6 +41,25 @@ const Header = () => {
 
   const { pathname } = useLocation();
   const pageName = pathname.split("/").filter(Boolean)?.[0];
+
+  useEffect(() => {
+    const storedAvatar = localStorage.getItem("avatar");
+    if (storedAvatar) {
+      setAvatar(storedAvatar);
+    }
+  }, [setAvatar]);
+
+  const handleLogOut = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.delete(`/users/logout`);
+      console.log(response);
+      navigate("/signup");
+      setLoading(false);
+    } catch (error) {
+      console.log("Error logging out user", error);
+    }
+  };
 
   return (
     <div className="sticky top-0 z-10 flex flex-row items-center justify-between h-16 px-4 md:px-5 bg-white dark:bg-black">
@@ -100,7 +126,14 @@ const Header = () => {
         </div>
 
         <div className="flex h-8 w-8 overflow-hidden rounded-full md:ml-4">
-          <img src={avatar} />
+          <img
+            src={avatar}
+            alt="user Avatar"
+            onClick={() => {
+              if (window.confirm("Are You sure you want to log out"))
+                handleLogOut();
+            }}
+          />
         </div>
       </div>
     </div>

@@ -5,21 +5,18 @@ import { abbreviateNumber } from "js-abbreviation-number";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { Context } from "../context/contextApi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-const SearchResultVideoCard = ({
-  video,
-  isHistory,
-  handleRemoveVideoFromWatchHistory,
-}) => {
+import { FadeLoader } from "react-spinners";
+
+const LikedVideoDisplay = ({ video }) => {
   const isFromDatabase = video?._id !== undefined;
-  const { handleAddVideoToWatchHistory } = useContext(Context);
   return (
     <Link to={`/video/${isFromDatabase ? video?._id : video?.videoId}`}>
       <div
-        onClick={() =>
-          handleAddVideoToWatchHistory(
-            isFromDatabase ? video._id : video?.videoId
-          )
-        }
+        // onClick={() =>
+        //   handleAddVideoToWatchHistory(
+        //     isFromDatabase ? video._id : video?.videoId
+        //   )
+        // }
         className="relative flex flex-col md:flex-row mb-8 md:mb-3 lg:hover:bg-white/[0.1] rounded-xl md:p-4 scrollbar-hide"
       >
         <div className="relative flex shrink-0 h-48 md:h-28 lg:h-40 xl:h-48 w-full md:w-48 lg:w-64 xl:w-80 rounded-xl bg-slate-800 overflow-hidden">
@@ -84,28 +81,9 @@ const SearchResultVideoCard = ({
             </div>
           </div>
         </div>
-
-        {isHistory && (
-          <div className="absolute top-2 right-2 cursor-pointer">
-            <BsThreeDotsVertical
-              className="text-white/[0.7] text-xl"
-              onClick={(e) => {
-                e.preventDefault();
-                const confirmRemove = window.confirm(
-                  "Do you want to remove this video from your history?"
-                );
-                if (confirmRemove) {
-                  handleRemoveVideoFromWatchHistory(
-                    isFromDatabase ? video._id : video?.id
-                  );
-                }
-              }}
-            />
-          </div>
-        )}
       </div>
     </Link>
   );
 };
 
-export default SearchResultVideoCard;
+export default LikedVideoDisplay;
