@@ -1,39 +1,25 @@
-import React from "react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { abbreviateNumber } from "js-abbreviation-number";
-import { BsFillCheckCircleFill } from "react-icons/bs";
+import React, { useContext } from "react";
 import { Context } from "../context/contextApi";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FadeLoader } from "react-spinners";
+import { abbreviateNumber } from "js-abbreviation-number";
+import { Link } from "react-router-dom";
 
-const LikedVideoDisplay = ({ video }) => {
-  const isFromDatabase = video?._id !== undefined;
+const MyVideosDisplay = ({ video }) => {
+  const { handleAddVideoToWatchHistory } = useContext(Context);
   return (
-    <Link to={`/video/${isFromDatabase ? video?._id : video?.videoId}`}>
+    <Link to={`/video/${video?._id}`}>
       <div
-        // onClick={() =>
-        //   handleAddVideoToWatchHistory(
-        //     isFromDatabase ? video._id : video?.videoId
-        //   )
-        // }
+        onClick={() => handleAddVideoToWatchHistory(video._id)}
         className="relative flex flex-col md:flex-row mb-8 md:mb-3 lg:hover:bg-white/[0.1] rounded-xl md:p-4 scrollbar-hide"
       >
         <div className="relative flex shrink-0 h-48 md:h-28 lg:h-40 xl:h-48 w-full md:w-48 lg:w-64 xl:w-80 rounded-xl bg-slate-800 overflow-hidden">
           <img
             className="h-full w-full object-cover"
-            src={
-              video?.thumbnail && Array.isArray(video.thumbnail)
-                ? video.thumbnail[0]?.url
-                : ""
-            }
+            src={video?.thumbnail}
             alt={video?.title}
           />
-          {(video?.lengthText || video?.duration) && (
+          {video?.duration && (
             <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-1 py-0.5 rounded">
-              {video?.lengthText
-                ? video.lengthText
-                : `${video?.duration.toFixed(2)} mins`}
+              {`${video?.duration.toFixed(2)} mins`}
             </span>
           )}
         </div>
@@ -50,9 +36,7 @@ const LikedVideoDisplay = ({ video }) => {
                 <img
                   className="h-full w-full object-cover"
                   src={
-                    (video?.channelThumbnail &&
-                      video?.channelThumbnail[0]?.url) ||
-                    video?.owner?.username ||
+                    video?.owner?.avatar ||
                     "https://tse4.mm.bing.net/th?id=OIP.tZq4FbHI-2VuBSGkHjfyfAHaHa&pid=Api&P=0&h=180"
                   }
                   alt={video?.channelTitle}
@@ -61,26 +45,14 @@ const LikedVideoDisplay = ({ video }) => {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold mt-2 text-white/[0.7] flex items-center">
-                {video?.channelTitle ||
-                  video?.owner?.username ||
-                  "Unknown Channel"}
-                {!isFromDatabase && video?.channelHandle && (
-                  <BsFillCheckCircleFill className="text-white/[0.5] text-[12px] ml-1" />
-                )}
+                {video?.owner.username || "Unknown Channel"}
               </span>
               <div className="flex text-sm font-semibold text-white/[0.7] truncate overflow-hidden">
-                <span>{`${abbreviateNumber(
-                  video?.viewCount || video?.views,
-                  2
-                )} views`}</span>
+                <span>{`${abbreviateNumber(video?.views, 2)} views`}</span>
                 <span className="flex text-[24px] leading-none font-bold text-white/[0.7] relative top-[-10px] mx-1">
                   .
                 </span>
-                <span className="truncate">
-                  {video?.publishedTimeText ||
-                    video?.createdAt ||
-                    new Date(video?.createdAt).toLocaleDateString()}
-                </span>
+                <span className="truncate">{video?.createdAt}</span>
               </div>
             </div>
           </div>
@@ -90,4 +62,4 @@ const LikedVideoDisplay = ({ video }) => {
   );
 };
 
-export default LikedVideoDisplay;
+export default MyVideosDisplay;

@@ -18,11 +18,13 @@ import { Context } from "../context/contextApi";
 import CommentsPage from "./CommentsPage";
 import axiosInstance from "../utils/AxiosInstance.jsx";
 import { FadeLoader } from "react-spinners";
+import LeftNavMenuItems from "./LeftNavMenuItems.jsx";
+import LeftNav from "./LeftNav.jsx";
 
 const VideoDetails = () => {
   const [video, setVideo] = useState();
   const { id } = useParams();
-  const { avatar, loading, setLoading } = useContext(Context);
+  const { avatar, loading, setLoading, isSideBarVisible } = useContext(Context);
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
@@ -166,6 +168,7 @@ const VideoDetails = () => {
   }, [id]);
   return (
     <div className="flex justify-center flex-row h-[calc(100%-56px)] bg-black ">
+      {isSideBarVisible ? <LeftNavMenuItems /> : <LeftNav />}
       <div className="w-full max-w-[1280px] flex flex-col lg:flex-row ">
         <div className="flex flex-col lg:w-[calc(100%-350px)] xl:w-[calc(100%-400px)] px-4 py-3 lg:py-6 ">
           {loading ? (

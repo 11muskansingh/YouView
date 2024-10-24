@@ -3,6 +3,8 @@ import axiosInstance from "../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../context/contextApi";
 import { FadeLoader } from "react-spinners";
+import LeftNavMenuItems from "./LeftNavMenuItems.jsx";
+import LeftNav from "./LeftNav.jsx";
 const UploadVideo = () => {
   const [thumbnailPreview, setthumbnailPreview] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -25,7 +27,7 @@ const UploadVideo = () => {
     setLoading,
   } = useContext(Context);
   const navigate = useNavigate();
-
+  const { isSideBarVisible } = useContext(Context);
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -78,6 +80,7 @@ const UploadVideo = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black py-6">
+      {isSideBarVisible ? <LeftNavMenuItems /> : <LeftNav />}
       <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg">
         {loading ? (
           <div className="flex justify-center items-center h-full">
@@ -138,7 +141,12 @@ const UploadVideo = () => {
                   <option value="music">Music</option>
                   <option value="education">Education</option>
                   <option value="entertainment">Entertainment</option>
-                  {/* Add more options as needed */}
+                  <option value="movies">Movies</option>
+                  <option value="Gaming">Gaming</option>
+                  <option value="news">News</option>
+                  <option value="sports">Sports</option>
+                  <option value="podcast">Podcasts</option>
+                  <option value="shopping">Shopping</option>
                 </select>
               </div>
               <div>
@@ -152,9 +160,7 @@ const UploadVideo = () => {
                 >
                   <option value="">Select Type</option>
                   <option value="video">Video</option>
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
-                  {/* Add more options if needed */}
+                  <option value="Shorts">Shorts</option>
                 </select>
               </div>
               <div>

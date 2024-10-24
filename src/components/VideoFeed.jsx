@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { Context } from "../context/contextApi";
 import VideoCard from "./VideoCard";
 import { FadeLoader } from "react-spinners";
+import axiosInstance from "../utils/AxiosInstance";
 const VideoFeed = () => {
   const { categoryName } = useParams();
   const [videos, setVideos] = useState([]);
@@ -14,8 +15,8 @@ const VideoFeed = () => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/videos/category/${categoryName}`
+        const response = await axiosInstance.get(
+          `/videos/category/${categoryName}`
         );
         // console.log(response.data);
         setVideos(response.data);

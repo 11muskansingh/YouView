@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import VideoFeed from "./VideoFeed";
 import History from "./History";
 import LikeHandling from "./LikeHandling";
+import MyVideos from "./MyVideos";
 const Feed = () => {
   const { isSideBarVisible, setSidebarVisible, toggleSideBar } =
     useContext(Context);
@@ -21,7 +22,8 @@ const Feed = () => {
         <Route path="/" element={<Navigate to="/feed/Home" />} />
         <Route path="/:categoryName" element={<VideoFeed />} />
         <Route path="/History" element={<History />} />
-        <Route path="/Liked_Videos" element={<LikeHandling />} />
+        <Route path="/LikedVideos" element={<LikeHandling />} />
+        <Route path="/MyVideos" element={<MyVideos />} />
       </Routes>
     </div>
   );

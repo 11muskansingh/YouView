@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../context/contextApi";
+import axiosInstance from "../../utils/AxiosInstance";
 const Signup = () => {
   const {
     username,
@@ -17,7 +18,7 @@ const Signup = () => {
     profilePicture,
     setProfilePicture,
     // avatarPreview,
-    // setAvatarPreview,
+    // setAvatarPreview,Y
     //  profilePicturePreview,
     // setProfilePicturePreview,
     // avatarURL,
@@ -28,7 +29,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors = {};
     if (!username || /\s/.test(username)) {
       newErrors.username = "Username must not contain spaces.";
@@ -43,7 +44,7 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
@@ -60,28 +61,39 @@ const Signup = () => {
       formData.append("coverImage", profilePicture);
     }
 
-    axios
-      .post("http://localhost:3000/api/v1/users/register", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-        const { data } = res.data;
-        console.log("User registered:", data);
-        console.log("Avatar URL:", data.avatar);
-        setAvatar(data.avatar);
-        if (data.coverImage) setProfilePicture(data.coverImage);
-        console.log("Username", data.username);
-        console.log("FullName:", data.fullname);
-        console.log("email", data.email);
-        navigate("/feed");
-      })
-      .catch((err) => {
-        console.error("Signup error:", err);
-      });
+    // await axiosInstance
+    //   .post("/users/register", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     const { data } = res.data;
+    //     console.log("User registered:", data);
+    //     console.log("Avatar URL:", data.avatar);
+    //     setAvatar(data.avatar);
+    //     if (data.coverImage) setProfilePicture(data.coverImage);
+    //     console.log("Username", data.username);
+    //     console.log("FullName:", data.fullname);
+    //     console.log("email", data.email);
+    //     navigate("/feed");
+    //   })
+    //   .catch((err) => {
+    //     console.error("Signup error:", err);
+    //   });
+
+    const res = await axiosInstance.post("/users/register", formData);
+    const { data } = res.data;
+    console.log("User registered:", data);
+    console.log("Avatar URL:", data.avatar);
+    setAvatar(data.avatar);
+    if (data.coverImage) setProfilePicture(data.coverImage);
+    console.log("Username", data.username);
+    console.log("FullName:", data.fullname);
+    console.log("email", data.email);
+    navigate("/feed");
   };
 
   const handleAvatarChange = (e) => {

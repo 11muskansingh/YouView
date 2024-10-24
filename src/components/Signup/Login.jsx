@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../context/contextApi";
+import axiosInstance from "../../utils/AxiosInstance";
 
 const Login = () => {
   const {
@@ -22,9 +23,9 @@ const Login = () => {
   // console.log(password);
   const handleLogin = (e) => {
     e.preventDefault();
-    axios
+    axiosInstance
       .post(
-        "http://localhost:3000/api/v1/users/login",
+        "/users/login",
         {
           username: loginUsername,
           password: loginPassword,
@@ -59,9 +60,19 @@ const Login = () => {
   };
 
   return (
-    <div className=" w-full h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex justify-center items-center">
       <div className="w-full max-w-sm p-8 bg-gray-800 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-8">Login</h2>
+
+        {/* Guest Credentials Div - Below the Login title */}
+        <div className="bg-gray-700 p-4 rounded-lg text-white mb-6">
+          <p className="text-sm text-center">
+            <strong>Guest Access:</strong> <br />
+            Username: <span className="font-bold">guest_user</span> <br />
+            Password: <span className="font-bold">guest_password</span>
+          </p>
+        </div>
+
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium">Username</label>
@@ -69,7 +80,9 @@ const Login = () => {
               type="text"
               value={loginUsername}
               onChange={(e) => loginSetUsername(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${error ? 'border-red-500' : ''}`"
+              className={`w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${
+                error ? "border-red-500" : ""
+              }`}
               placeholder="Enter your username"
             />
           </div>
@@ -79,19 +92,20 @@ const Login = () => {
               type="password"
               value={loginPassword}
               onChange={(e) => loginSetPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${error ? 'border-red-500' : ''}`"
+              className={`w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-indigo-500 ${
+                error ? "border-red-500" : ""
+              }`}
               placeholder="Enter your password"
             />
           </div>
-          {error && (
-            <p className="text-red-500 text-sm mb-4">{error}</p> // Display error message
-          )}
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <button
             onClick={handleLogin}
             className="w-full py-2 mb-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:outline-none"
           >
             Login
           </button>
+
           <p className="text-sm text-center">
             Don't have an account?{" "}
             <Link to="/signup" className="text-indigo-400 hover:underline">

@@ -22,8 +22,6 @@ const History = () => {
       } else {
         setVideos([]);
       }
-
-      // setVideos(response.data.data);
       setLoading(false);
     } catch (error) {
       console.log("Error fetching the Video history of the user", error);
@@ -35,13 +33,20 @@ const History = () => {
     try {
       setLoading(true);
       console.log("Video to be removed", videoId);
+
+      // Call delete endpoint to remove the video
       await axiosInstance.delete(`/videos/deleteVideoFromHistory/${videoId}`);
-      await getHistoryVideos();
+
+      // Update the state by removing the deleted video from the array
+      setVideos((prevVideos) =>
+        prevVideos.filter((item) => item.id !== videoId)
+      );
+
       setLoading(false);
     } catch (error) {
       console.log(
         "Error removing video from watch History",
-        error.response.data
+        error.response?.data || error
       );
       setLoading(false);
     }
@@ -58,7 +63,6 @@ const History = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     getHistoryVideos();
   }, []);

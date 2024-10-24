@@ -39,13 +39,13 @@ export const categories = [
   },
   {
     id: 6,
-    name: "Watch Later",
+    name: "MyVideos",
     icon: <MdOutlineWatchLater />,
     type: "menu",
   },
   {
     id: 7,
-    name: "Liked_Videos",
+    name: "LikedVideos",
     icon: <BiLike />,
     divider: true,
     type: "menu",

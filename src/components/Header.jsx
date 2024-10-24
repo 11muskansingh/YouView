@@ -52,12 +52,14 @@ const Header = () => {
   const handleLogOut = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.delete(`/users/logout`);
+      const response = await axiosInstance.post(`/users/logout`);
       console.log(response);
+      localStorage.clear();
       navigate("/signup");
       setLoading(false);
     } catch (error) {
-      console.log("Error logging out user", error);
+      console.log("Error logging out user", error.message);
+      setLoading(false);
     }
   };
 
@@ -79,7 +81,7 @@ const Header = () => {
           )}
         </div>
 
-        <Link to="/" className="flex h-5 items-center">
+        <Link to="/feed/Home" className="flex h-5 items-center">
           <img
             className="h-full hidden dark:md:block"
             src={ytLogo}

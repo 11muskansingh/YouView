@@ -36,7 +36,7 @@ const RouteHandler = () => {
     <>
       {!isAuthPage && <Header />}
       <Routes>
-        <Route path="/" element={<Navigate to="/signup" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/feed/*" element={<Feed />} />
