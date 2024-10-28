@@ -71,7 +71,7 @@ const History = () => {
     <div className="flex flex-row h-[calc(100%-56px)] relative left-[84px] w-[calc(100%-84px)]">
       {isSideBarVisible ? <LeftNavMenuItems /> : <LeftNav />}
       <div className="grow w-[calc(100%-240px)] h-full overflow-y-auto bg-black ">
-        <div className="p-5">
+        <div className="p-5 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-white mb-4">Watch History</h1>
           <button
             onClick={() => {
@@ -90,7 +90,7 @@ const History = () => {
         ) : (
           <div className="grid grid-cols-1 gap-2 p-5">
             {Array.isArray(videos) && videos.length === 0 ? (
-              <div className="text-3xl font-bold text-white mb-4">
+              <div className="text-3xl font-bold text-white mb-4 flex justify-center items-center h-full">
                 No videos found
               </div>
             ) : (

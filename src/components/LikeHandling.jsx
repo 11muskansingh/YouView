@@ -43,7 +43,7 @@ const LikeHandling = () => {
         ) : (
           <div className="grid grid-cols-1 gap-2 p-5">
             {Array.isArray(likedVideos) && likedVideos.length === 0 ? (
-              <div className="text-3xl font-bold text-white mb-4">
+              <div className="text-3xl font-bold text-white mb-4 flex justify-center items-center h-full">
                 No videos found
               </div>
             ) : (

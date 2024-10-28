@@ -67,9 +67,9 @@ const Login = () => {
         {/* Guest Credentials Div - Below the Login title */}
         <div className="bg-gray-700 p-4 rounded-lg text-white mb-6">
           <p className="text-sm text-center">
-            <strong>Guest Access:</strong> <br />
-            Username: <span className="font-bold">guest_user</span> <br />
-            Password: <span className="font-bold">guest_password</span>
+            <span>Guest Access</span> <br />
+            Username: <span className="font-bold">"guestview"</span> <br />
+            Password: <span className="font-bold">"1234"</span>
           </p>
         </div>
 
