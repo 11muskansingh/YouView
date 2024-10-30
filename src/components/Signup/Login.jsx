@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../context/contextApi";
 import axiosInstance from "../../utils/AxiosInstance";
@@ -55,12 +57,14 @@ const Login = () => {
         } else {
           setError("UserName or Password is incorrect");
         }
+        toast.error(errorMessage);
         console.error("Login error:", err);
       });
   };
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
+      <ToastContainer />
       <div className="w-full max-w-sm p-8 bg-gray-800 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-8">Login</h2>
 

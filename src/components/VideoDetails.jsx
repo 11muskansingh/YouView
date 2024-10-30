@@ -38,9 +38,10 @@ const VideoDetails = () => {
     try {
       setLoading(true);
       setVideo(null);
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/videos/related/${id}`
-      );
+      // const response = await axios.get(
+      //   `http://localhost:3000/api/v1/videos/related/${id}`
+      // );
+      const response = await axiosInstance.get(`/videos/related/${id}`);
       //  console.log("Related Videos data :", response.data);
       setRelatedVideos(response.data);
       setLoading(false);
