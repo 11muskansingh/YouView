@@ -57,7 +57,7 @@ const Login = () => {
         } else {
           setError("UserName or Password is incorrect");
         }
-        toast.error(errorMessage);
+        toast.error(error);
         console.error("Login error:", err);
       });
   };
