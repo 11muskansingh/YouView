@@ -50,3 +50,8 @@ YouView is a fully functional YouTube clone providing users with a complete vide
 - **File Storage**:
   - Multer for handling file uploads.
   - Cloudinary for storing and delivering video files, ensuring high-quality media storage.
+
+## Backend Repository - VideoStream
+
+The backend code for YouView is located in a separate repository named [VideoStream](https://github.com/11muskansingh/VideoStream). It is built with Node.js and Express.js, leveraging MongoDB for data storage. The backend handles user authentication with JWT, manages video upload and storage through Multer and Cloudinary, and provides APIs for features like video search, categorization, comments, likes, and watch history management. This repository powers the core functionalities and data handling for the YouView platform.
+
