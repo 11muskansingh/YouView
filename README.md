@@ -1,7 +1,5 @@
 # YouView : A Comprehensive YouTube Clone
 
-# YouView - YouTube Clone
-
 YouView is a fully functional YouTube clone providing users with a complete video browsing and streaming experience. Built with a modern tech stack, YouView allows users to search, upload, interact with, and organize videos within a visually appealing and intuitive interface.
 
 ## Features
