@@ -1,55 +1,54 @@
 # YouView : A Comprehensive YouTube Clone
 
-**YouView** is a full-featured YouTube clone designed to deliver a dynamic video-sharing experience. This project uses React and Tailwind CSS for the frontend, while the backend is powered by Express.js, MongoDB, and Node.js. The backend is in a separate repository, with this repo focusing on the frontend and associated functionalities.
+# YouView - YouTube Clone
+
+YouView is a fully functional YouTube clone providing users with a complete video browsing and streaming experience. Built with a modern tech stack, YouView allows users to search, upload, interact with, and organize videos within a visually appealing and intuitive interface.
 
 ## Features
 
-### Frontend
+### User Authentication
+- **Sign Up & Login**: Users can create a new account or log in to an existing one. User information is securely stored, and login sessions are managed to ensure secure access to all features.
+- **Session Management**: After logging in, users remain authenticated until they choose to log out, ensuring smooth navigation across the app.
 
-- **Responsive Design:** Modern and adaptive UI built with Tailwind CSS.
-- **Video Feed:** Dynamic display of videos with thumbnails and descriptions.
-- **Search Functionality:** Real-time search with advanced filters.
-- **Video Playback:** Embedded player supporting HD streaming.
-- **Video Details:** Detailed pages with related content suggestions.
-- **User Authentication:** Secure login and profile management.
-- **User Interaction:** Like, dislike, and comment on videos.
+### Video Search and Categories
+- **Browse by Categories**: Videos are organized into various categories (e.g., Entertainment, Education, Sports), allowing users to explore and discover content based on their preferences.
+- **Keyword Search**: Users can search for videos by typing keywords, making it easy to find specific videos or content within a genre of their choice.
 
-### Backend
+### Like and Comment on Videos
+- **Liking Videos**: Users can like videos they enjoy, and each like is counted, giving creators a sense of their audience’s engagement.
+- **Commenting**: Users can add comments on videos, facilitating interaction between users and content creators. Each comment is timestamped and can be read by other users.
 
-- **User Management:** Handles user registration, login, and profile management.
-- **Video Management:** Supports video uploads, updates, and deletions.
-- **Comment System:** Manages comments on videos.
-- **Real-Time Updates:** Synchronizes likes, dislikes, and comments.
+### Related Videos
+- **Recommendations**: When a video is selected, YouView automatically displays related videos on the side, helping users find similar content. This feature improves discoverability and keeps users engaged by suggesting relevant videos.
 
-## Backend Repository
+### Upload Videos
+- **Personal Uploads**: Authenticated users can upload videos directly from their profile, allowing them to contribute to the platform.
+- **Profile Storage**: Videos uploaded by a user are accessible on their profile, providing a portfolio of their content.
+- **File Handling**: Files are uploaded through Multer and stored on Cloudinary, ensuring smooth upload and secure storage of media content.
 
-The backend code is located in a separate repository. You can find it here: [VideoStream](https://github.com/11muskansingh/VideoStream)
+### Watch History Management
+- **View Watch History**: Users can view a list of all the videos they’ve recently watched, helping them revisit content they found interesting.
+- **Remove from History**: If users prefer to clean up their watch history, they can remove specific videos, giving them control over what appears in their history list.
 
-- ## Technologies Used
+### Liked Videos
+- **Favorites List**: Every video a user has liked is stored in a dedicated "Liked Videos" section, making it easy for users to find and re-watch their favorite content.
 
-### Frontend
+### User Logout
+- **Secure Logout**: When users are done, they can securely log out of their account, ensuring their information remains safe.
 
-- **React**: A JavaScript library for building user interfaces.
-- **Tailwind CSS**: A utility-first CSS framework for designing responsive and modern UIs.
-- **Vite**: A build tool that provides a fast development environment for modern web projects.
+## Tech Stack
 
-### Backend
+- **Frontend**: 
+  - React.js for building the user interface and managing state.
+  - Tailwind CSS for styling and responsive design.
 
-- **Express.js**: A web application framework for Node.js, used to build RESTful APIs.
-- **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine, used for server-side development.
-- **MongoDB**: A NoSQL database used for storing and managing data.
-- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js, used for modeling and querying data.
+- **Backend**: 
+  - Node.js and Express.js for server-side logic and API handling.
+  - MongoDB for data storage, including user accounts, video information, comments, and likes.
 
-### Other Tools
+- **Authentication**:
+  - JSON Web Tokens (JWT) for managing user sessions securely.
 
-- **Git**: A version control system for tracking changes in source code.
-- **GitHub**: A platform for hosting and collaborating on Git repositories.
-- **ESLint**: A tool for identifying and fixing problems in JavaScript code.
-- **Prettier**: A code formatter that enforces consistent style.
-
-### Development
-
-- **NPM**: Node Package Manager for managing project dependencies.
-- **Postman**: A tool for testing and interacting with APIs.
-
-
+- **File Storage**:
+  - Multer for handling file uploads.
+  - Cloudinary for storing and delivering video files, ensuring high-quality media storage.
